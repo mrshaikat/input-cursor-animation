@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useRef, useEffect } from "react"
 import "./CustomInputs.scss"
 
@@ -85,6 +83,11 @@ const CustomInputs = () => {
     }
   }, [leftValue, leftFocused])
 
+  // Helper to generate a class for the cursor position
+  function getCursorClass(pos) {
+    return `cursor-pos-${Math.round(pos)}`;
+  }
+
   return (
     <div className="custom-inputs-container">
       <div className="content-wrapper">
@@ -96,7 +99,7 @@ const CustomInputs = () => {
         {/* Center-aligned Input */}
         <div className="input-section">
           <h2 className="section-title">Center-aligned Input</h2>
-          <div className="input-wrapper">
+          <div className={`input-wrapper ${getCursorClass(centerCursorPos)}`}>
             <input
               ref={centerInputRef}
               type="text"
@@ -115,9 +118,7 @@ const CustomInputs = () => {
             {centerFocused && (
               <div
                 className="custom-cursor"
-                style={{
-                  left: `${centerCursorPos}px`,
-                }}
+                data-cursor-left={centerCursorPos}
               />
             )}
           </div>
@@ -126,7 +127,7 @@ const CustomInputs = () => {
         {/* Left-aligned Input */}
         <div className="input-section">
           <h2 className="section-title">Left-aligned Input</h2>
-          <div className="input-wrapper">
+          <div className={`input-wrapper ${getCursorClass(leftCursorPos)}`}>
             <input
               ref={leftInputRef}
               type="text"
@@ -142,9 +143,7 @@ const CustomInputs = () => {
             {leftFocused && (
               <div
                 className="custom-cursor"
-                style={{
-                  left: `${leftCursorPos}px`,
-                }}
+                data-cursor-left={leftCursorPos}
               />
             )}
           </div>

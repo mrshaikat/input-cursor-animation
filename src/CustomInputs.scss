@@ -115,6 +115,13 @@ $white: #ffffff;
   }
 }
 
+// Generate 500 possible cursor positions (adjust as needed)
+@for $i from 0 through 500 {
+  .cursor-pos-#{$i} {
+    --cursor-left: #{$i}px;
+  }
+}
+
 // Custom cursor
 .custom-cursor {
   position: absolute;
@@ -125,6 +132,7 @@ $white: #ffffff;
   background-color: $magenta;
   pointer-events: none;
   animation: blink-cursor 1s infinite;
+  left: var(--cursor-left, 0);
 }
 
 // Demo section
