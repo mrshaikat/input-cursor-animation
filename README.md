@@ -1,12 +1,25 @@
-# React + Vite
+# Animated Input Vite Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project demonstrates a custom animated input component built with React and Vite. The `AnimatedInput` component features a visually animated cursor that accurately tracks the user's input position, supporting both left-aligned and center-aligned text. The cursor is rendered independently for smooth animation and precise placement, even when moving the cursor with the mouse or keyboard, or when deleting characters.
 
-Currently, two official plugins are available:
+## Features
+- Animated custom input cursor
+- Accurate cursor tracking for all input actions
+- Center and left alignment variants
+- Built with React, Vite, and SCSS
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
+1. Install dependencies:
+   ```sh
+   npm install
+   ```
+2. Start the development server:
+   ```sh
+   npm run dev
+   ```
+3. Open your browser to the provided local URL to view the demo.
 
-## Expanding the ESLint configuration
+## File Structure
+- `src/AnimatedInput.jsx` – Main animated input component
+- `src/AnimatedInput.scss` – Styles for the animated input
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
