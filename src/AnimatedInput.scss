@@ -1,0 +1,86 @@
+// Styles for AnimatedInput component
+.animated-input-wrapper {
+  display: block;
+  position: relative;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  min-width: 200px;
+  max-width: 400px;
+  font-family: monospace;
+  background: #fff;
+}
+
+.animated-input {
+  border: none;
+  outline: none;
+  font-size: 2.1rem;
+  background: none;
+  width: 100%;
+  caret-color: transparent;
+  font-family: inherit;
+  padding: 8px;
+  margin: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+  color: #222;
+  text-align: center;
+}
+
+.input-mirror-span {
+  position: absolute;
+  visibility: hidden;
+  white-space: pre;
+  font-family: inherit;
+  font-size: 2.1rem;
+  padding: 0px;
+  margin: 0;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+}
+
+.custom-cursor {
+  width: 2px;
+  height: 100%;
+  background: magenta;
+  display: inline-block;
+  vertical-align: middle;
+  opacity: 1;
+  animation: blink-cursor 1s steps(2, start) infinite;
+  position: absolute;
+  top: 8px;
+  z-index: 3;
+}
+
+.custom-cursor[data-cursor-left] {
+  left: attr(data-cursor-left px);
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animated-input.center {
+  text-align: center;
+}
+.animated-input.start {
+  text-align: left;
+}
+
+.animated-input-wrapper.center {
+  justify-content: center;
+}
+.animated-input-wrapper.start {
+  justify-content: flex-start;
+}
+
+.input-mirror-span.center {
+  text-align: center;
+}
+.input-mirror-span.start {
+  text-align: left;
+}
