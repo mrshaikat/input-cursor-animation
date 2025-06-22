@@ -7,6 +7,7 @@ export default function AnimatedInput({ variant = "center" }) {
   const [isFocused, setIsFocused] = useState(false);
   const [cursorPosition, setCursorPosition] = useState(0);
   const mirrorRef = useRef(null);
+  const measureRef = useRef(null); // New: for measuring only
   const [cursorLeft, setCursorLeft] = useState(0);
   const isCenter = variant === "center";
 
@@ -16,9 +17,34 @@ export default function AnimatedInput({ variant = "center" }) {
     setCursorPosition(e.target.selectionStart);
   };
 
-  // Focus input when wrapper is clicked
-  const handleWrapperClick = () => {
-    inputRef.current.focus();
+  // Focus input and set cursor position based on click location (now for input only)
+  const handleInputClick = e => {
+    if (!inputRef.current) return;
+    const input = inputRef.current;
+    // Only do custom positioning for center variant
+    if (isCenter && value.length > 0 && measureRef.current) {
+      const style = window.getComputedStyle(input);
+      const inputLeftPadding = parseInt(style.paddingLeft, 10) || 0;
+      const scrollLeft = input.scrollLeft;
+      const rect = input.getBoundingClientRect();
+      const clickX = e.clientX - rect.left - inputLeftPadding + scrollLeft;
+      // Use a hidden span to measure width of substrings
+      let closestIdx = 0;
+      let minDiff = Infinity;
+      for (let i = 0; i <= value.length; i++) {
+        measureRef.current.textContent = value.slice(0, i);
+        const width = measureRef.current.offsetWidth;
+        const diff = Math.abs(width - clickX);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestIdx = i;
+        }
+      }
+      measureRef.current.textContent = ""; // clear
+      setCursorPosition(closestIdx);
+      // Set native input selection as well
+      input.setSelectionRange(closestIdx, closestIdx);
+    }
   };
 
   // Update cursor position on selection change
@@ -47,21 +73,23 @@ export default function AnimatedInput({ variant = "center" }) {
     inputRightPadding = parseInt(style.paddingRight, 10) || 0;
     inputScrollLeft = inputRef.current.scrollLeft;
     inputWidth = inputRef.current.offsetWidth;
+    console.log("Input Width:", inputWidth, "Left Padding:", inputLeftPadding, "Right Padding:", inputRightPadding);
   }
 
   // Center offset logic for center variant
   let centerOffset = 0;
   if (isCenter && inputWidth > 0 && cursorLeft + inputLeftPadding + inputRightPadding < inputWidth) {
     centerOffset = (inputWidth - (inputLeftPadding + inputRightPadding + mirrorRef.current?.offsetWidth || 0)) / 2;
+    console.log("Center Offset:>>>>", centerOffset);
   }
 
   // Clamp cursor: left padding + measured width - scrollLeft + centerOffset, but not past the right edge
   const unclampedCursorLeft = inputLeftPadding + cursorLeft - inputScrollLeft + centerOffset;
   const maxCursorLeft = inputWidth - inputRightPadding - 2; // 2px for cursor width
   const clampedCursorLeft = Math.max(inputLeftPadding, Math.min(unclampedCursorLeft, maxCursorLeft));
-
+  console.log("Cursor Left:", clampedCursorLeft, "Unclamped:", unclampedCursorLeft, "Max:", maxCursorLeft);
   return (
-    <div className={`animated-input-wrapper${isCenter ? " center" : " start"}`} onClick={handleWrapperClick}>
+    <div className={`animated-input-wrapper${isCenter ? " center" : " start"}`}>
       <input
         ref={inputRef}
         className={`animated-input${isCenter ? " center" : " start"}`}
@@ -72,6 +100,7 @@ export default function AnimatedInput({ variant = "center" }) {
         onBlur={() => setIsFocused(false)}
         spellCheck={false}
         autoComplete="off"
+        onClick={handleInputClick} // attach click handler here
       />
       {/* Hidden mirror span for measuring cursor position */}
       <span
@@ -82,6 +111,21 @@ export default function AnimatedInput({ variant = "center" }) {
       >
         {beforeCursor}
       </span>
+      {/* Hidden measuring span for click-to-cursor logic */}
+      <span
+        ref={measureRef}
+        style={{
+          position: "absolute",
+          visibility: "hidden",
+          pointerEvents: "none",
+          whiteSpace: "pre",
+          font: "inherit",
+          padding: 0,
+          margin: 0,
+          border: 0,
+        }}
+        aria-hidden
+      />
       {/* Show blinking cursor only when input is focused */}
       {isFocused && (
         <span

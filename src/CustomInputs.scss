@@ -1,0 +1,185 @@
+// Variables
+$primary-blue: #3b82f6;
+$primary-green: #10b981;
+$magenta: #d946ef;
+$slate-50: #f8fafc;
+$slate-100: #f1f5f9;
+$slate-200: #e2e8f0;
+$slate-400: #94a3b8;
+$slate-600: #475569;
+$slate-700: #334155;
+$slate-800: #1e293b;
+$white: #ffffff;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+// Keyframes
+@keyframes blink-cursor {
+  0%, 100% { 
+    opacity: 1; 
+  }
+  50% { 
+    opacity: 0; 
+  }
+}
+
+// Main container
+.custom-inputs-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, $slate-50 0%, $slate-100 100%);
+  padding: 2rem;
+
+  .content-wrapper {
+    max-width: 42rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+}
+
+// Header section
+.header-section {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .main-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: $slate-800;
+    margin: 0;
+  }
+
+  .subtitle {
+    color: $slate-600;
+    margin: 0;
+  }
+}
+
+// Input sections
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: $slate-700;
+    margin: 0;
+  }
+}
+
+// Input wrapper and fields
+.input-wrapper {
+  position: relative;
+}
+
+.input-field {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 2.125rem;
+  background-color: $white;
+  border: 2px solid $slate-200;
+  border-radius: 0.75rem;
+  outline: none;
+  caret-color: transparent;
+//   @include transition-colors;
+
+  &::placeholder {
+    color: $slate-400;
+  }
+
+  &--center {
+    text-align: center;
+
+    &:focus {
+      border-color: $primary-blue;
+    }
+  }
+
+  &--left {
+    text-align: left;
+
+    &:focus {
+      border-color: $primary-green;
+    }
+  }
+}
+
+// Custom cursor
+.custom-cursor {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 1.5rem;
+  background-color: $magenta;
+  pointer-events: none;
+  animation: blink-cursor 1s infinite;
+}
+
+// Demo section
+.demo-section {
+  background-color: $white;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid $slate-200;
+
+  .demo-title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: $slate-700;
+    margin: 0 0 0.75rem 0;
+  }
+
+  .demo-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .demo-item {
+    font-size: 0.875rem;
+    color: $slate-600;
+    margin: 0;
+
+    .demo-label {
+      font-weight: 500;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .custom-inputs-container {
+    padding: 1rem;
+
+    .content-wrapper {
+      gap: 2rem;
+    }
+  }
+
+  .header-section {
+    .main-title {
+      font-size: 1.5rem;
+    }
+  }
+
+  .input-field {
+    padding: 0.875rem 1.25rem;
+    font-size: 1rem;
+  }
+
+  .custom-cursor {
+    height: 1.25rem;
+  }
+}
